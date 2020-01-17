@@ -37,24 +37,23 @@ def movies_list():
 		cursor.close()
 		conn.close()
 		
-# @app.route('/movie/<str:key>/')
-# def search_namesl(str):
-	# try:
-		# conn = sqlite3.connect("movies.db")
-		# cursor = conn.cursor()
-		# cursor.execute("select * from movies where title like %"+str(key)+"%")
-		# movie=[]
-		# desc=[]
-		# for record in cursor.fetchall():
-			# movie.append({'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3])})
+@app.route('/movie/<string:key>')
+def search_names(key):
+	try:
+		movie=[]
+		conn = sqlite3.connect("movies.db")
+		cursor = conn.cursor()
+		cursor.execute("select title,description,image from movies where title like '%"+str(key)+"%'")
+		for record in cursor.fetchall():
+			movie.append({'title': str(record[0]), 'desc': str(record[1]), 'img':str(record[2])})
 
-		# return jsonify(status="success",data=movie), 200
-	# except Exception as e:
-		# print(e)
-		# return jsonify(data="error")
-	# finally:
-		# cursor.close()
-		# conn.close()		
+		return jsonify(status="success",data=movie), 200
+	except Exception as e:
+		print(e)
+		return jsonify(data="error")
+	finally:
+		cursor.close()
+		conn.close()
 
 #USER
 @app.route('/movie/add/rent', methods=['POST'])
