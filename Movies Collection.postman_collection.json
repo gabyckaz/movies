@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "75f53855-69d1-401d-95f2-6fd273f1ffd0",
+		"_postman_id": "449c702b-d21d-437c-b7cd-463c78cad509",
 		"name": "Movies Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -57,7 +57,14 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -68,12 +75,12 @@
 						},
 						{
 							"key": "id_movie",
-							"value": "20",
+							"value": "21",
 							"type": "text"
 						},
 						{
 							"key": "return_date",
-							"value": "2019-01-23",
+							"value": "2019-01-22",
 							"type": "text"
 						}
 					]
@@ -119,7 +126,7 @@
 						},
 						{
 							"key": "id_movie",
-							"value": "1",
+							"value": "2",
 							"type": "text"
 						}
 					]
@@ -153,12 +160,12 @@
 					"formdata": [
 						{
 							"key": "title",
-							"value": "Titanic",
+							"value": "Rogue One",
 							"type": "text"
 						},
 						{
 							"key": "desc",
-							"value": "Titanic is a 1997 American epic romance and disaster film. Incorporating both historical and fictionalized aspects, the film is based on accounts of the sinking of the RMS Titanic",
+							"value": "A 2016 American epic space-opera film directed by Gareth Edwards. It is the first installment of the Star Wars anthology series. ",
 							"type": "text"
 						},
 						{
@@ -168,17 +175,17 @@
 						},
 						{
 							"key": "image",
-							"value": "https://upload.wikimedia.org/wikipedia/en/1/19/Titanic_%28Official_Film_Poster%29.png",
+							"value": "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Rogue_One%2C_A_Star_Wars_Story_poster.png/220px-Rogue_One%2C_A_Star_Wars_Story_poster.png",
 							"type": "text"
 						},
 						{
 							"key": "rent_price",
-							"value": "5.99",
+							"value": "6.95",
 							"type": "text"
 						},
 						{
 							"key": "sale_price",
-							"value": "9.95",
+							"value": "10.95",
 							"type": "text"
 						},
 						{
@@ -188,7 +195,7 @@
 						},
 						{
 							"key": "popularity",
-							"value": "25",
+							"value": "21",
 							"type": "text"
 						}
 					]
@@ -219,12 +226,19 @@
 			"response": []
 		},
 		{
-			"name": "Edit Movie info",
+			"name": "Get Movie info",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/13/",
+					"raw": "http://127.0.0.1:5000/movie/21/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -235,7 +249,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"13",
+						"21",
 						""
 					]
 				}
@@ -252,37 +266,37 @@
 					"formdata": [
 						{
 							"key": "title",
-							"value": "Avengers: Endgame",
+							"value": "qAvengers: Endgame",
 							"type": "text"
 						},
 						{
 							"key": "desc",
-							"value": " Endgame is a 2019 American superhero film based on the Marvel Comics superhero team the Avengers, produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures.",
+							"value": "q Endgame is a 2019 American superhero film based on the Marvel Comics superhero team the Avengers, produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures.",
 							"type": "text"
 						},
 						{
 							"key": "stock",
-							"value": "25",
+							"value": "225",
 							"type": "text"
 						},
 						{
 							"key": "image",
-							"value": "https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
+							"value": "qhttps://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
 							"type": "text"
 						},
 						{
 							"key": "rent_price",
-							"value": "8.55",
+							"value": "88.55",
 							"type": "text"
 						},
 						{
 							"key": "sale_price",
-							"value": "13.47",
+							"value": "813.47",
 							"type": "text"
 						},
 						{
 							"key": "availability",
-							"value": "1",
+							"value": "11",
 							"type": "text"
 						},
 						{
@@ -293,7 +307,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/13/",
+					"raw": "http://127.0.0.1:5000/movie/14/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -304,7 +318,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"13",
+						"14",
 						""
 					]
 				}
@@ -318,16 +332,10 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "id_movie",
-							"value": "6",
-							"type": "text"
-						}
-					]
+					"formdata": []
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/6/",
+					"raw": "http://127.0.0.1:5000/movie/9/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -338,7 +346,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"6",
+						"9",
 						""
 					]
 				}
@@ -442,12 +450,12 @@
 					"formdata": [
 						{
 							"key": "user",
-							"value": "jack",
+							"value": "maria",
 							"type": "text"
 						},
 						{
 							"key": "pass",
-							"value": "1234",
+							"value": "12345",
 							"type": "text"
 						}
 					]
