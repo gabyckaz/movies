@@ -41,6 +41,20 @@
 		},
 		{
 			"name": "Rent movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e3336542-8183-4620-b047-bcd8184fcfa4",
+						"exec": [
+							"var xsrfCookie = postman.getResponseCookie(\"XSRF-TOKEN\");\r",
+							"var xsrfToken = decodeURIComponent(pm.cookies.get(\"XSRF-TOKEN\"));\r",
+							"pm.environment.set(\"xsrf-token\", xsrfToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -54,7 +68,7 @@
 						},
 						{
 							"key": "id_movie",
-							"value": "8",
+							"value": "20",
 							"type": "text"
 						},
 						{
@@ -105,7 +119,7 @@
 						},
 						{
 							"key": "id_movie",
-							"value": "13",
+							"value": "1",
 							"type": "text"
 						}
 					]
@@ -263,7 +277,7 @@
 						},
 						{
 							"key": "sale_price",
-							"value": "16.47",
+							"value": "13.47",
 							"type": "text"
 						},
 						{
@@ -273,7 +287,7 @@
 						},
 						{
 							"key": "popularity",
-							"value": "36",
+							"value": "40",
 							"type": "text"
 						}
 					]
@@ -383,6 +397,95 @@
 					"path": [
 						"movie",
 						"jok"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all movies admin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/list",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user",
+							"value": "jack",
+							"type": "text"
+						},
+						{
+							"key": "pass",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"logout"
 					]
 				}
 			},
