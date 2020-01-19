@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "449c702b-d21d-437c-b7cd-463c78cad509",
+		"_postman_id": "e411ec6a-8d3d-426f-9df3-d107e062868d",
 		"name": "Movies Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -75,12 +75,12 @@
 						},
 						{
 							"key": "id_movie",
-							"value": "21",
+							"value": "20",
 							"type": "text"
 						},
 						{
 							"key": "return_date",
-							"value": "2019-01-22",
+							"value": "2019-01-26",
 							"type": "text"
 						}
 					]
@@ -99,13 +99,6 @@
 						"movie",
 						"add",
 						"rent"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "",
-							"disabled": true
-						}
 					]
 				}
 			},
@@ -126,7 +119,7 @@
 						},
 						{
 							"key": "id_movie",
-							"value": "2",
+							"value": "15",
 							"type": "text"
 						}
 					]
@@ -201,7 +194,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/add",
+					"raw": "http://127.0.0.1:5000/movie/add?",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -266,48 +259,48 @@
 					"formdata": [
 						{
 							"key": "title",
-							"value": "qAvengers: Endgame",
+							"value": "Into the Woods",
 							"type": "text"
 						},
 						{
 							"key": "desc",
-							"value": "q Endgame is a 2019 American superhero film based on the Marvel Comics superhero team the Avengers, produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures.",
+							"value": " Inspired by the Grimm Brothers' fairy tales of \"Little Red Riding Hood\", \"Cinderella\", \"Jack and the Beanstalk\" and \"Rapunzel\", the film is a fantasy genre centered on a childless couple, who set out to end a curse placed on them by a vengeful witch. Ultimately, the characters are forced to experience the consequences of their actions",
 							"type": "text"
 						},
 						{
 							"key": "stock",
-							"value": "225",
+							"value": "30",
 							"type": "text"
 						},
 						{
 							"key": "image",
-							"value": "qhttps://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg",
+							"value": "https://upload.wikimedia.org/wikipedia/en/thumb/3/34/Into_the_Woods_film_poster.jpg/220px-Into_the_Woods_film_poster.jpg",
 							"type": "text"
 						},
 						{
 							"key": "rent_price",
-							"value": "88.55",
+							"value": "8.51",
 							"type": "text"
 						},
 						{
 							"key": "sale_price",
-							"value": "813.47",
+							"value": "16.51",
 							"type": "text"
 						},
 						{
 							"key": "availability",
-							"value": "11",
+							"value": "0",
 							"type": "text"
 						},
 						{
 							"key": "popularity",
-							"value": "40",
+							"value": "36",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/14/",
+					"raw": "http://127.0.0.1:5000/movie/15/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -318,7 +311,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"14",
+						"15",
 						""
 					]
 				}
@@ -335,7 +328,7 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/9/",
+					"raw": "http://127.0.0.1:5000/movie/11/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -346,7 +339,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"9",
+						"11",
 						""
 					]
 				}
@@ -360,16 +353,10 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "id_movie",
-							"value": "21",
-							"type": "text"
-						}
-					]
+					"formdata": []
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/21/like",
+					"raw": "http://127.0.0.1:5000/movie/15/like",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -380,7 +367,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"21",
+						"15",
 						"like"
 					]
 				}
