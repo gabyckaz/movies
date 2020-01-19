@@ -23,7 +23,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/",
+					"raw": "http://127.0.0.1:5000/?sort=popularity&type=desc",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -34,6 +34,24 @@
 					"port": "5000",
 					"path": [
 						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "3",
+							"description": "default=1",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "popularity",
+							"description": "title(default) or popularity"
+						},
+						{
+							"key": "type",
+							"value": "desc",
+							"description": "default=asc "
+						}
 					]
 				}
 			},
@@ -80,7 +98,7 @@
 						},
 						{
 							"key": "return_date",
-							"value": "2019-01-26",
+							"value": "2019-01-30",
 							"type": "text"
 						}
 					]
@@ -328,7 +346,7 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/11/",
+					"raw": "http://127.0.0.1:5000/movie/21/",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -339,7 +357,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"11",
+						"21",
 						""
 					]
 				}
@@ -380,7 +398,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/jok",
+					"raw": "http://127.0.0.1:5000/movie/har",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -391,7 +409,7 @@
 					"port": "5000",
 					"path": [
 						"movie",
-						"jok"
+						"har"
 					]
 				}
 			},
@@ -403,7 +421,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/movie/list",
+					"raw": "http://127.0.0.1:5000/movie/list?av_filter=0",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -415,6 +433,13 @@
 					"path": [
 						"movie",
 						"list"
+					],
+					"query": [
+						{
+							"key": "av_filter",
+							"value": "0",
+							"description": "0(availables),1(not availables) or 2(default=all movies)"
+						}
 					]
 				}
 			},
@@ -437,12 +462,12 @@
 					"formdata": [
 						{
 							"key": "user",
-							"value": "maria",
+							"value": "jack",
 							"type": "text"
 						},
 						{
 							"key": "pass",
-							"value": "12345",
+							"value": "1234",
 							"type": "text"
 						}
 					]
@@ -481,6 +506,49 @@
 					"port": "5000",
 					"path": [
 						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit user role",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "new_role",
+							"value": "admin",
+							"description": "admin or client",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/movie/user/2/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movie",
+						"user",
+						"2",
+						""
 					]
 				}
 			},

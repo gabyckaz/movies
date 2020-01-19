@@ -1,19 +1,29 @@
+# Movies
+
 ## Installation
 
-1. Install pip3
-2. Install python3
+1. Clone git project
+2. Install pip3
+3. Install python3
 
-3. Install flask and packages using pip
+4. Install flask and flask-jwt-extended
 
->pip3 install flask
->pip3 install flask-jwt-extended
 
-## Clone git project
+```bash
+pip3 install flask
+pip3 install flask-jwt-extended
+```
 
 ## Run
->python3 movies.py
+```bash 
+python3 movies.py
+```
+It should run on http://127.0.0.1:5000/
 
-
-Users login:
+### Users login:
 user: jack, pass:1234
+
 user: maria, pass:12345
+
+
+

@@ -41,11 +41,18 @@ logger.addHandler(handler)
 #Welcome page, lists basic movie info
 @app.route('/')
 def movies_list():
+	#pagination
+	number_page = request.args.get('page', default = 1, type = int)
+	limit=3#movies per page
+	offset =(number_page-1)*limit
+	#sorting
+	sort = request.args.get('sort', default = 'title', type = str)
+	type = request.args.get('type', default = 'asc', type = str)
 	try:
 		movie=[]
-		result=select("select * from movies where availability=0")
+		result=select("select * from movies where availability=0 order by "+sort+" "+type+" limit "+str(limit)+" offset "+str(offset))
 		for record in result:
-			movie.append({'id_movie':int(record[0]),'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3])})
+			movie.append({'id_movie':int(record[0]),'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3]), 'popularity':int(record[8])})
 		return jsonify(data=movie,status="success"), 200
 	except Exception as e:
 		print(e)
@@ -57,13 +64,18 @@ def movies_list():
 @app.route('/movie/list', methods=['GET'])
 @jwt_required
 def movies_list_admin():
+	#filtering by availability/unavailability
+	av_filter = int(request.args.get('av_filter',default = 2,type=int))#0(availables), 1(not availables) or 2(all)
 	current_user_name = get_jwt_identity()
 	if current_user_name:
 		role=check_role(current_user_name)
 		if 'admin' in role:
 			try:
 				movie=[]
-				result=select("select * from movies")
+				if av_filter > 1:
+					result=select("select * from movies")
+				else:
+					result=select("select * from movies where availability="+str(av_filter))
 				for record in result:
 					movie.append({'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3]),'stock':int(record[4]),
 					'rent':float(record[5]),'sale':float(record[6]),'availability':int(record[7]),'popularity':int(record[8])})
@@ -291,6 +303,32 @@ def movies_detail(key):
 				return jsonify(status="error, you're not allowed, you're not admin"), 200
 		else:
 			return jsonify(status="error, you're not allowed, you're a visitor"), 200
+
+#Admin
+#Edit user role
+@app.route('/movie/user/<int:key>/', methods=['PUT'])
+@jwt_required
+def edit_user(key):
+	current_user_name = get_jwt_identity()
+	if current_user_name:
+		role=check_role(current_user_name)
+		if 'admin' in role:
+			if request.method == 'PUT':
+				try:
+					new_role=str(request.form['new_role'])
+					conn = sqlite3.connect("movies.db")
+					cursor = conn.cursor()
+					cursor.execute("UPDATE users SET role=? WHERE id_user=?",(new_role,str(key)))
+					conn.commit()
+					conn.close()
+					return jsonify(status="success"), 200
+				except Exception as e:
+					print(e)
+					return jsonify(status="error"),
+		else:
+			return jsonify(status="error, you're not allowed"), 200
+	else:		
+		return jsonify(status="error, you need to login"), 200
 
 
 @app.route('/login', methods=['POST'])
