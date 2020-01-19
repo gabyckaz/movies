@@ -12,3 +12,8 @@
 
 ## Run
 >python3 movies.py
+
+
+Users login:
+user: jack, pass:1234
+user: maria, pass:12345

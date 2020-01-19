@@ -240,7 +240,7 @@ def movies_detail(key):
 			movie=[]
 			result=select("select * from movies where id_movie="+str(key))
 			for record in result:
-				movie.append({'id_movie':int(record[0]),'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3]),'rent':float(record[5]),'sale:':float(record[6]), 'popularity':int(record[8])})
+				movie.append({'id_movie':int(record[0]),'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3]),'rent':float(record[5]),'sale':float(record[6]), 'popularity':int(record[8])})
 			return jsonify(status="success",data=movie), 201
 		except Exception as e:
 			print(e)
