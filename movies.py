@@ -43,13 +43,9 @@ logger.addHandler(handler)
 def movies_list():
 	try:
 		movie=[]
-		conn = sqlite3.connect("movies.db")
-		cursor = conn.cursor()
-		cursor.execute("select * from movies where availability=0")
-		for record in cursor.fetchall():
+		result=select("select * from movies where availability=0")
+		for record in result:
 			movie.append({'id_movie':int(record[0]),'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3])})
-		cursor.close()
-		conn.close()
 		return jsonify(data=movie,status="success"), 200
 	except Exception as e:
 		print(e)
@@ -67,14 +63,10 @@ def movies_list_admin():
 		if 'admin' in role:
 			try:
 				movie=[]
-				conn = sqlite3.connect("movies.db")
-				cursor = conn.cursor()
-				cursor.execute("select * from movies")
-				for record in cursor.fetchall():
+				result=select("select * from movies")
+				for record in result:
 					movie.append({'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3]),'stock':int(record[4]),
 					'rent':float(record[5]),'sale':float(record[6]),'availability':int(record[7]),'popularity':int(record[8])})
-				cursor.close()
-				conn.close()
 				return jsonify(data=movie,status="success"), 200
 			except Exception as e:
 				print(e)
@@ -89,13 +81,9 @@ def movies_list_admin():
 def search_names(key):
 	try:
 		movie=[]
-		conn = sqlite3.connect("movies.db")
-		cursor = conn.cursor()
-		cursor.execute("select title,description,image from movies where title like '%"+str(key)+"%'")
-		for record in cursor.fetchall():
+		result=select("select title,description,image from movies where title like '%"+str(key)+"%'")
+		for record in result:
 			movie.append({'title': str(record[0]), 'desc': str(record[1]), 'img':str(record[2])})
-		cursor.close()
-		conn.close()
 		return jsonify(status="success",data=movie), 200
 	except Exception as e:
 		print(e)
@@ -117,11 +105,15 @@ def rent_movie():
 					id_movie=str(request.form['id_movie'])
 					return_date=str(request.form['return_date'])
 					price_penalty=3.50
+					status=0
 					conn = sqlite3.connect("movies.db")
-					conn.execute("INSERT INTO rents(id_user,id_movie,return_date,price_penalty) VALUES (?,?,?,?)",(id_user,id_movie,return_date,price_penalty));
+					conn.execute("INSERT INTO rents(id_user,id_movie,return_date,price_penalty,status) VALUES (?,?,?,?,?)",(id_user,id_movie,return_date,price_penalty,status));
 					conn.commit()
 					conn.close()
-					logger.info("The user "+str(current_user_name)+" has rented the movie "+str(id_movie))
+					moviename=select("SELECT title FROM movies WHERE id_movie="+str(id_movie))
+					for record in moviename:
+						title=record[0]
+					logger.info("The user "+str(current_user_name)+" has rented the movie "+str(title))
 					return jsonify(status="success"), 201
 				except Exception as e:
 					print(e)
@@ -144,23 +136,25 @@ def buy_movie():
 					id_user = str(request.form['id_user'])
 					id_movie=str(request.form['id_movie'])
 					stock=0
-					conn = sqlite3.connect("movies.db")
-					cursor = conn.cursor()
-					cursor.execute("select stock from movies where id_movie="+str(id_movie))
-					for record in cursor.fetchall():
+					result=select("select stock from movies where id_movie="+str(id_movie))
+					for record in result:
 						stock=record[0]
 					if stock is 0:
 						return jsonify(status="error, no stock"), 200
 					else:
 						#update stock
 						stock-=1
+						conn = sqlite3.connect("movies.db")
 						cursor = conn.cursor()
 						cursor.execute("UPDATE movies SET stock=? WHERE id_movie=?",(stock,str(id_movie)))
 						conn.execute("INSERT INTO sales(id_user,id_movie) VALUES (?,?)",(id_user,id_movie));
 						conn.commit()
 						conn.close()
-						logger.info("The user "+str(current_user_name)+" has bought the movie "+str(id_movie))
-						return jsonify(status="success",current_user=current_user_name,rol=role), 201
+						moviename=select("SELECT title FROM movies WHERE id_movie="+str(id_movie))
+						for record in moviename:
+							title=record[0]
+						logger.info("The user "+str(current_user_name)+" has bought the movie "+str(title))
+						return jsonify(status="success"), 201
 				except Exception as e:
 					print(e)
 					return jsonify(data="error"),
@@ -182,25 +176,28 @@ def like_movie(key):
 				try:
 					#select value
 					num_likes=[]
-					conn = sqlite3.connect("movies.db")
-					cursor = conn.cursor()
-					cursor.execute("select popularity from movies where id_movie="+str(key))
-					for record in cursor.fetchall():
+					result=select("select popularity from movies where id_movie="+str(key))
+					for record in result:
 						num_likes=record[0]
 					num_likes+=1
 					#insert new value
+					conn = sqlite3.connect("movies.db")
 					cursor = conn.cursor()
 					cursor.execute("UPDATE movies SET popularity=? WHERE id_movie=?",(num_likes,str(key)))
 					conn.commit()
 					conn.close()
-					logger.info("Movie "+str(key)+" has been liked")
+					moviename=select("SELECT title FROM movies WHERE id_movie="+str(key)+"")
+					for record in moviename:
+						title=record[0]
+					logger.info("Movie "+title+" has been liked")
 					return jsonify(status="success",data=num_likes), 200
 				except Exception as e:
 					print(e)
 					return jsonify(status="error"),
 			else:
 				return jsonify(status="error, you're not allowed"), 200
-		return jsonify(status="error, you need to login"), 200
+		else:		
+			return jsonify(status="error, you need to login"), 200
 
 
 #Admin
@@ -241,13 +238,9 @@ def movies_detail(key):
 	if request.method == 'GET':
 		try:
 			movie=[]
-			conn = sqlite3.connect("movies.db")
-			cursor = conn.cursor()
-			cursor.execute("select * from movies where id_movie="+str(key))
-			for record in cursor.fetchall():
+			result=select("select * from movies where id_movie="+str(key))
+			for record in result:
 				movie.append({'id_movie':int(record[0]),'title': str(record[1]), 'desc': str(record[2]), 'img':str(record[3]),'rent':float(record[5]),'sale:':float(record[6]), 'popularity':int(record[8])})
-			cursor.close()
-			conn.close()
 			return jsonify(status="success",data=movie), 201
 		except Exception as e:
 			print(e)
@@ -279,14 +272,17 @@ def movies_detail(key):
 					except Exception as e:
 						print(e)
 						return jsonify(status="error"),
-				#ADMIN
+
 				if request.method == 'DELETE':
 					try:
+						moviename=select("SELECT title FROM movies WHERE id_movie="+str(key)+"")
+						for record in moviename:
+							title=record[0]
 						conn = sqlite3.connect("movies.db")
 						conn.execute("DELETE FROM movies WHERE id_movie="+str(key))
 						conn.commit()
 						conn.close()
-						logger.info("Movie "+str(key)+" has been deleted")
+						logger.info("Movie "+str(title)+" has been deleted")
 						return jsonify(status="success"), 201
 					except Exception as e:
 						print(e)
@@ -302,10 +298,8 @@ def login():
 	hash_pass=""
 	username= str(request.form['user'])
 	password = str(request.form['pass'])
-	conn = sqlite3.connect("movies.db")
-	cursor = conn.cursor()
-	cursor.execute("select pass from users where name='"+str(username)+"'")
-	for record in cursor.fetchall():
+	result=select("select pass from users where name='"+str(username)+"'")
+	for record in result:
 		hash_pass=str(record[0])
 	check=check_password_hash(hash_pass, password)
 	if check is False:
@@ -324,14 +318,23 @@ def logout():
 	unset_jwt_cookies(resp)
 	return resp, 200
 
+
 #Checks user role
 def check_role(user_name):
-	conn = sqlite3.connect("movies.db")
-	cursor = conn.cursor()
-	cursor.execute("select role from users WHERE name='"+str(user_name)+"'")
-	for record in cursor.fetchall():
+	result=select("select role from users WHERE name='"+str(user_name)+"'")
+	for record in result:
 		user_role=str(record[0])
 	return user_role
+
+#insert into db
+def select(sql):
+	db = sqlite3.connect("movies.db")
+	c = db.cursor()
+	c.execute(sql)
+	result= c.fetchall()
+	c.close()
+	db.close()
+	return result
 
 
 if __name__=="__main__":
